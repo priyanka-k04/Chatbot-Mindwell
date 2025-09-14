@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindWell - Your Guide to Mental Wellbeing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General Styling */
+        :root {
+            --primary-color: #4A90E2; /* A calming blue */
+            --secondary-color: #50E3C2; /* A gentle teal */
+            --background-color: #F4F7F6;
+            --text-color: #333;
+            --light-gray: #EAEAEA;
+            --white: #FFFFFF;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .navbar .logo i {
+            font-size: 1.8rem;
+            margin-right: 0.5rem;
+        }
+
+        .navbar .nav-links a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a.active, .navbar .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            padding: 2rem;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .content-area {
+            flex-grow: 1;
+        }
+
+        /* Sidebar Categories */
+        .wellbeing-category {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            cursor: pointer;
+            border-left: 5px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .wellbeing-category:hover, .wellbeing-category.active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-left-color: var(--secondary-color);
+        }
+
+        .wellbeing-category i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .wellbeing-category img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-right: 1rem;
+        }
+
+        .wellbeing-category h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+        .wellbeing-category p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        /* Content Sections */
+        .welcome-section, .info-box {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .info-box {
+            display: none; /* Hidden by default */
+        }
+        .info-box.active {
+            display: block; /* Shown when active */
+        }
+
+        .hero-image {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 350px;
+            border-radius: 8px;
+        }
+
+        .statistics {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .stat-item .stat-number {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .stat-item .stat-label {
+            color: #555;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cta-button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: #3a7ac8;
+        }
+
+        #cat-open-img{
+            width: 50px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-right: 1rem;
+        }
+
+        /* General Content Styling */
+        h2 { color: var(--primary-color); }
+        h3 { color: var(--text-color); }
+
+        /* Info Box Content Styling */
+        .info-box h2 {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .info-box ul {
+            list-style-type: '✓ ';
+            padding-left: 1.5rem;
+        }
+
+        .info-box li {
+            margin-bottom: 0.75rem;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .topic-item {
+            padding: 1.5rem;
+            background: #F9F9F9;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .topic-item h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .disclaimer {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+            color: #8a6d3b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+
+        /* Chatbot Styling */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1001;
+        }
+
+        #chat-container {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            width: 350px;
+            height: 500px;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1002;
+        }
+
+        #chat-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        #chat-header h1 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        #message-area {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Message Bubbles */
+        .user-message, .bot-message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+            padding: 0.8rem;
+            border-radius: 10px;
+            position: relative;
+            line-height: 1.4;
+        }
+        .user-message {
+            background: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+        .bot-message {
+            background: var(--light-gray);
+            color: var(--text-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+        .message-time {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-top: 5px;
+            text-align: right;
+        }
+        .user-message .message-time {
+            color: #e0e0e0;
+        }
+        .bot-message p {
+            margin: 0 0 0.5rem 0;
+        }
+        
+        #eco-tip {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .input-area {
+            display: flex;
+            border-top: 1px solid var(--light-gray);
+        }
+        #user-input {
+            flex-grow: 1;
+            border: none;
+            padding: 1rem;
+            font-size: 1rem;
+            outline: none;
+        }
+        #send-button {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            padding: 0 1.2rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator { display: flex; align-items: center; }
+        .typing-dot {
+            width: 8px; height: 8px; margin: 0 2px;
+            background-color: #888; border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container { flex-direction: column; }
+            .sidebar {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .sidebar { grid-template-columns: 1fr; }
+            .statistics { flex-direction: column; gap: 1.5rem; }
+            .nav-links { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-brain"></i>
+            <h1>MindWell</h1>
+        </a>
+        <div class="nav-links">
+            <a href="#" class="active">Home</a>
+            <a href="#">About</a>
+            <a href="#">Resources</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="wellbeing-category" data-target="anxiety-info">
+                <img src="anxeity.webp" alt="Anxiety illustration">
+                <div>
+                    <h3>Anxiety</h3>
+                    <p>Understanding and coping</p>
+                </div>
+            </div>
+            <div class="wellbeing-category" data-target="depression-info">
+                <img src="depression.jpg" alt="Depression illustration">
+                <div>
+                    <h3>Depression</h3>
+                    <p>Symptoms and support</p>
+                </div>
+            </div>
+            <div class="wellbeing-category" data-target="stress-info">
+                <img src="https://img.freepik.com/free-vector/stress-concept-illustration_114360-1628.jpg?w=740" alt="Stress management illustration">
+                <div>
+                    <h3>Stress Management</h3>
+                    <p>Techniques for relief</p>
+                </div>
+            </div>
+            <div class="wellbeing-category" data-target="selfcare-info">
+                 <img src="selfcare.jpg" alt="Self-care illustration">
+                <div>
+                    <h3>Mindfulness & Self-Care</h3>
+                    <p>Practices for daily life</p>
+                </div>
+            </div>
+            <div class="wellbeing-category" data-target="help-info">
+                <i class="fas fa-phone-volume" style="color: #FFC107;"></i>
+                <div>
+                    <h3>Finding Help</h3>
+                    <p>Resources and hotlines</p>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="content-area">
+            <section class="welcome-section">
+                <h2>Welcome to MindWell</h2>
+                <p>Your compassionate guide to understanding and improving your mental wellbeing. Explore our resources or chat with our AI assistant for confidential, supportive guidance.</p>
+                
+                <div class="hero-image">
+                    <img src="HeroMain.png" alt="Mental health illustration">
+                </div>
+                
+                <div class="statistics">
+                    <div class="stat-item">
+                        <div class="stat-number">1 in 4</div>
+                        <div class="stat-label">people experience a mental health issue each year</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">75%</div>
+                        <div class="stat-label">of mental illnesses start before age 24</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">8-10</div>
+                        <div class="stat-label">year average delay between symptoms and treatment</div>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="#" class="cta-button" id="show-chatbot">
+                        <i class="fas fa-comments"></i> Chat with MindWell
+                    </a>
+                </div>
+
+            </section>
+            
+            <section class="info-box" id="anxiety-info">
+                <h2><img src="anxeity.webp" alt="Anxiety illustration" id="cat-open-img">Understanding Anxiety</h2>
+                <p>Anxiety is a natural human response to stress. However, when it becomes excessive and persistent, it can interfere with daily life. Anxiety disorders involve more than temporary worry or fear.</p>
+                <div class="topic-grid">
+                    <div class="topic-item">
+                        <h3>Common Symptoms</h3>
+                        <p>Feeling nervous, restless, or tense; having a sense of impending danger; increased heart rate; rapid breathing; sweating; trembling; and difficulty concentrating.</p>
+                    </div>
+                    <div class="topic-item">
+                        <h3>Coping Strategies</h3>
+                        <p>Practice deep breathing exercises, engage in regular physical activity, get enough sleep, challenge anxious thoughts, and connect with supportive friends or family.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="info-box" id="depression-info">
+                <h2><img src="depression.jpg" alt="Depression illustration" id="cat-open-img">About Depression</h2>
+                <p>Depression is a mood disorder that causes a persistent feeling of sadness and loss of interest. It affects how you feel, think, and behave and can lead to a variety of emotional and physical problems.</p>
+                 <div class="topic-grid">
+                    <div class="topic-item">
+                        <h3>Key Symptoms</h3>
+                        <p>Persistent sad or "empty" mood, loss of interest in hobbies, fatigue, changes in appetite or sleep, feelings of worthlessness, and difficulty concentrating.</p>
+                    </div>
+                    <div class="topic-item">
+                        <h3>Seeking Support</h3>
+                        <p>It's crucial to reach out for help. Talk to a trusted friend, family member, or mental health professional. Therapy and medication can be very effective treatments.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-box" id="stress-info">
+                <h2><img src="https://img.freepik.com/free-vector/stress-concept-illustration_114360-1628.jpg?w=740" alt="Stress management illustration" id="cat-open-img"> Stress Management Techniques</h2>
+                <p>Stress is a feeling of emotional or physical tension. Learning healthy ways to cope with it can improve your resilience and overall wellbeing.</p>
+                <h3>Effective Techniques:</h3>
+                <ul>
+                    <li><strong>4-7-8 Breathing:</strong> Inhale for 4 seconds, hold for 7, and exhale for 8. Repeat several times.</li>
+                    <li><strong>Physical Activity:</strong> Regular exercise is a powerful stress reliever.</li>
+                    <li><strong>Time Management:</strong> Organize your tasks and set realistic deadlines to reduce feeling overwhelmed.</li>
+                    <li><strong>Mindfulness:</strong> Pay attention to the present moment without judgment.</li>
+                </ul>
+            </section>
+
+            <section class="info-box" id="selfcare-info">
+                <h2><img src="selfcare.jpg" alt="Self-care illustration" id="cat-open-img"> Mindfulness & Self-Care</h2>
+                <p>Self-care involves intentionally taking actions to care for your physical, mental, and emotional health. Mindfulness is a key part of this, helping you stay grounded in the present.</p>
+                <div class="topic-grid">
+                    <div class="topic-item">
+                        <h3>Self-Care Ideas</h3>
+                        <p>Take a warm bath, read a book, spend time in nature, listen to music, cook a nutritious meal, or practice a hobby you enjoy.</p>
+                    </div>
+                    <div class="topic-item">
+                        <h3>Mindfulness Practice</h3>
+                        <p>Try a 5-minute meditation, practice mindful eating by savoring each bite, or simply focus on the sensation of your breath for a few moments during the day.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-box" id="help-info">
+                <h2><i class="fas fa-phone-volume" style="color: #FFC107;"></i> Finding Help & Resources</h2>
+                <p>Reaching out is a sign of strength. There are many resources available to provide support, guidance, and treatment for mental health concerns.</p>
+                <h3>Types of Support:</h3>
+                <ul>
+                    <li><strong>Therapists & Counselors:</strong> Professionals trained to provide talk therapy and treatment plans.</li>
+                    <li><strong>Support Groups:</strong> Connect with others who have similar experiences.</li>
+                    <li><strong>Helplines & Hotlines:</strong> Confidential support is available 24/7 for immediate needs.</li>
+                    <li><strong>Psychiatrists:</strong> Medical doctors who can prescribe medication.</li>
+                </ul>
+                <div class="disclaimer">
+                    <strong>Disclaimer:</strong> This chatbot is an informational tool, not a substitute for professional medical advice, diagnosis, or treatment. If you are in a crisis, please contact a local emergency number or a crisis hotline immediately.
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <div id="chat-container">
+        <div id="chat-header">
+            <i class="fas fa-brain"></i>
+            <h1>MindWell Assistant</h1>
+        </div>
+        <div id="message-area"></div>
+        <div id="eco-tip">
+            <i class="fas fa-leaf"></i>
+            <span id="tip-text">Tip: Take a few deep breaths to center yourself.</span>
+        </div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Ask about mental health..." autocomplete="off">
+            <button id="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <button class="chatbot-toggle" id="chatbot-toggle">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <script>
+    // --- UI INTERACTIVITY ---
+
+    const chatContainer = document.getElementById('chat-container');
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const showChatbotButton = document.getElementById('show-chatbot');
+
+    function toggleChatbot() {
+        if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+            chatContainer.style.display = 'flex';
+        } else {
+            chatContainer.style.display = 'none';
+        }
+    }
+
+    chatbotToggle.addEventListener('click', toggleChatbot);
+    showChatbotButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        chatContainer.style.display = 'flex';
+    });
+
+    // Handle Category Selection
+    const categories = document.querySelectorAll('.wellbeing-category');
+    const infoBoxes = document.querySelectorAll('.info-box');
+    const welcomeSection = document.querySelector('.welcome-section');
+
+    categories.forEach(category => {
+        category.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            
+            welcomeSection.style.display = 'none';
+
+            categories.forEach(cat => cat.classList.remove('active'));
+            this.classList.add('active');
+            
+            infoBoxes.forEach(box => box.classList.remove('active'));
+            document.getElementById(targetId).classList.add('active');
+            
+            if (window.innerWidth < 1024) {
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+
+    // --- CHATBOT LOGIC ---
+
+    const chatMessages = document.getElementById("message-area");
+    const userInput = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
+    const wellbeingTip = document.getElementById("tip-text");
+
+    const wellbeingTips = [
+        "Take a few deep breaths to center yourself.",
+        "It's okay not to be okay. Be kind to yourself.",
+        "Practice gratitude: name three things you're thankful for today.",
+        "A short walk outside can significantly boost your mood.",
+        "Stay hydrated. Drinking enough water is good for your mind and body.",
+        "Connect with someone you trust and share how you're feeling.",
+        "Limit your time on social media if it's making you feel down.",
+        "Celebrate small victories, no matter how minor they seem.",
+        "Getting 7-9 hours of sleep can greatly improve mental clarity.",
+        "Mindfulness is about observing your thoughts without judgment."
+    ];
+
+    function showRandomTip() {
+        const randomIndex = Math.floor(Math.random() * wellbeingTips.length);
+        wellbeingTip.textContent = wellbeingTips[randomIndex];
+    }
+    
+    showRandomTip();
+    setInterval(showRandomTip, 15000);
+
+    function getCurrentTime() {
+        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const initialMessage = `<div class="bot-message-content"><strong>MindWell:</strong> Hello! I'm your supportive AI assistant. You can ask me about mental health topics like anxiety, self-care, or finding resources. How can I help you today?<div class="message-time">${getCurrentTime()}</div></div>`;
+        displayMessage(initialMessage, "bot");
+    });
+    
+    function showTypingIndicator() {
+        const typingIndicatorHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+        const messageElement = document.createElement("div");
+        messageElement.id = "typing-indicator";
+        messageElement.classList.add("bot-message");
+        messageElement.innerHTML = typingIndicatorHTML;
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+        const indicator = document.getElementById("typing-indicator");
+        if (indicator) indicator.remove();
+    }
+
+    async function sendMessageToGeminiAPI(message) {
+        // IMPORTANT: Replace with your actual Google AI Studio API key
+        const apiKey = ""; // <-- PASTE YOUR NEW KEY HERE
+
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+        
+        const systemPrompt = `You are MindWell, a compassionate, empathetic, and knowledgeable AI assistant.
+         Your purpose is to provide helpful, general information about mental health topics like anxiety, depression, stress, mindfulness, 
+         and self-care. Your tone should always be supportive, non-judgmental, and encouraging. Use clear, simple language. 
+         **CRITICAL SAFETY INSTRUCTIONS:** 1. **You are NOT a therapist.** You must never provide medical advice, diagnosis, or treatment. 
+         Always include a disclaimer like "Please remember, I'm an AI assistant and not a substitute for a real mental health professional.
+         " if the user asks for personal advice. 2. **Crisis Detection:** If a user's message contains any indication of self-harm, suicide, or severe crisis, 
+         you MUST IMMEDIATELY and ONLY respond with: "It sounds like you are going through a very difficult time. Please reach out for immediate help. 
+         You can contact a crisis hotline or emergency services right away. Here are some resources: [List of relevant crisis hotlines for the user's region, 
+         or general ones like the National Suicide Prevention Lifeline at 988 in the US]. Please, reach out to them now." Do not attempt to counsel them further. 
+         3. **Stay on Topic:** If asked about topics unrelated to mental health, gently guide the conversation back. User query: ${message}`;
+        
+        const requestBody = { contents: [{ parts: [{ text: systemPrompt }] }] };
+
+        try {
+            const response = await fetch(geminiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) throw new Error(`API Error: ${response.status}`);
+
+            const data = await response.json();
+            const botResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure how to respond to that. Could you try asking in a different way?";
+            
+            let formattedResponse = botResponse
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^\* (.*$)/gm, '<ul><li>$1</li></ul>')
+                .replace(/<\/ul>\n<ul>/g, '')
+                .replace(/\n/g, '<br>');
+
+            return `<div class="bot-message-content"><strong>MindWell:</strong> ${formattedResponse}<div class="message-time">${getCurrentTime()}</div></div>`;
+
+        } catch (error) {
+            console.error("Error communicating with Gemini API:", error);
+            return `<div class="bot-message-content"><strong>MindWell:</strong> I'm having a little trouble connecting right now. Please check your API key and try again in a moment.<div class="message-time">${getCurrentTime()}</div></div>`;
+        }
+    }
+
+    function displayMessage(messageHTML, sender = "user") {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add(sender === "user" ? "user-message" : "bot-message");
+        messageElement.innerHTML = messageHTML;
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function handleUserInput() {
+        const message = userInput.value.trim();
+        if (message === "") return;
+
+        displayMessage(`<div class="user-message-content">${message}</div><div class="message-time">${getCurrentTime()}</div>`, "user");
+        userInput.value = "";
+        
+        showTypingIndicator();
+        
+        setTimeout(async () => {
+            const botResponseHTML = await sendMessageToGeminiAPI(message);
+            removeTypingIndicator();
+            displayMessage(botResponseHTML, "bot");
+            showRandomTip();
+        }, 1000 + Math.random() * 500);
+    }
+
+    sendButton.addEventListener("click", handleUserInput);
+    userInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") handleUserInput();
+    });
+
+    window.onload = () => userInput.focus();
+</script>
+</body>
+</html>
+
+
+
+
+
